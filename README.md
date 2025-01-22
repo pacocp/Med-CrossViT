@@ -12,7 +12,7 @@ make build
 
 # Usage
 
-An example training-testing pipeline can be found in the  ````src/main.py```` file. The model expects as input two modalities:
+The model expects as input two modalities:
 - Bag of tiles features: Torch tensor with the format (batch_size, bag_size, feature_dim).
 - RNA-Seq counts: Torch tensor with the format (batch_size, num_genes).
 

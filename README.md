@@ -7,7 +7,12 @@ In this repository I have implemented a medicine-focused [CrossViT](https://arxi
 The package can be installed with the associated Makefile associated using [uv](https://docs.astral.sh/uv/):
 
 ```bash
+# build
 make build
+# clean
+make clean
+# document code using lazydocs
+make doc
 ```
 
 # Usage
@@ -40,16 +45,19 @@ v = MedCrossViT(
     cross_attn_heads=8,
     cross_attn_dim_head=64,
     dropout=0.1,
-    emb_dropout=0.1)
+    emb_dropout=0.1,
+    return_attn=True)
 
 # get a lot of this
 wsi_bag = torch.rand((16, 50, 768))
 rna_seq = torch.rand((16, 100))
 
 # train for multiple steps
-pred = v(wsi_bag, rna_seq)
+pred, attn = v(wsi_bag, rna_seq)
 print(pred)
 print(pred.shape)
+print(attn[0].shape) # WSI CLS token
+print(attn[1].shape) # RNA CLS token
 ```
 
 A Torch dataset is implemented that returns for every sample the bag of tiles features and the RNA-Seq counts. It uses as input a csv wher each row is a sample, contains one column per gene with the **rna_** prefix, and the label. An example csv is provided in the ```data``` folder. Features per tile are expected to be computed beforehand. An example would be:
